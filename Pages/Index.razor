@@ -8,33 +8,34 @@
 <form @onsubmit="GetPresentValue" class="row">
     <div class="col-auto">
         <div class="form-floating mb-3">
-            <input type="number" class="form-control" id="futureCashFlow" @bind="futureCashFlow">
+            <input type="number" class="form-control" id="futureCashFlow" value="@futureCashFlow"
+                   @oninput="ChangeFutureCashFlow">
             <label for="futureCashFlow">Future Cash Flow</label>
         </div>
     </div>
     <div class="col-auto">
         <div class="form-floating mb-3">
-            <input type="number" class="form-control" id="periods" @bind="periods">
+            <input type="number" class="form-control" id="periods" value="@periods"
+                   @oninput="ChangePeriods">
             <label for="periods">Number of Periods</label>
         </div>
     </div>
     <div class="col-auto">
-        <label for="discountRateRange" class="form-label">Discount Rate</label>
+        <label for="discountRateRange" class="form-label">
+            Discount Rate
+        </label>
         <input type="range" class="form-range" id="discountRateRange" value="@discountRate"
-               min="0" max="1" step="0.01"
+               min="0" max="50" step="0.1"
                @oninput="ChangeDiscountRate">
     </div>
     <div class="col-auto">
         <div class="form-floating mb-3">
-            <input type="number" step="0.01" class="form-control" id="discountRate" value="@discountRate"
-                   @oninput="ChangeDiscountRate">
-            <label for="discountRate">Discount Rate</label>
+            <input type="text" class="form-control" id="discountRate" value="@DiscountRateString"
+                   readonly>
+            <label for="discountRate">
+                Discount Rate
+            </label>
         </div>
-    </div>
-    <div class="col-auto">
-        <button class="btn btn-primary btn-lg mb-3" @onclick="GetPresentValue">
-            Calculate Present Value
-        </button>
     </div>
     <div class="col-auto">
         <div class="form-floating mb-3">
@@ -50,18 +51,43 @@
     private double presentValue;
     private double futureCashFlow = 10_000;
     private double periods = 10;
-    private double discountRate = 0.05;
+    private double discountRate = 5;
 
+    private string DiscountRateString => (discountRate / 100.0).ToString("P1");
     private string PresentValueString => presentValue.ToString("N2");
-    
+
+    protected override void OnParametersSet()
+    {
+        GetPresentValue();
+    }
+
+    private void ChangeFutureCashFlow(ChangeEventArgs e)
+    {
+        futureCashFlow = ToDouble(e.Value);
+        GetPresentValue();
+    }
+
+    private void ChangePeriods(ChangeEventArgs e)
+    {
+        periods = ToDouble(e.Value);
+        GetPresentValue();
+    }
+
     private void ChangeDiscountRate(ChangeEventArgs e)
     {
-        discountRate = Convert.ToDouble(e.Value);
+        discountRate = ToDouble(e.Value);
         GetPresentValue();
     }
 
     private void GetPresentValue()
     {
-        presentValue = SimpleCashFlowDiscounting.PresentValue(futureCashFlow, periods, discountRate);
+        presentValue = SimpleCashFlowDiscounting.PresentValue(futureCashFlow, periods, discountRate / 100.0);
+    }
+
+    private static double ToDouble(object? value)
+    {
+        if (string.IsNullOrWhiteSpace(value as string))
+            return 0;
+        return Convert.ToDouble(value);
     }
 }
