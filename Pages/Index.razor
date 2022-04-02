@@ -21,20 +21,16 @@
         </div>
     </div>
     <div class="col-auto">
-        <label for="discountRateRange" class="form-label">
+        <label for="discountRateRange" class="text-muted" style="font-size: 0.85em">
             Discount Rate
         </label>
-        <input type="range" class="form-range" id="discountRateRange" value="@discountRate"
-               min="0" max="50" step="0.1"
-               @oninput="ChangeDiscountRate">
-    </div>
-    <div class="col-auto">
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="discountRate" value="@DiscountRateString"
-                   readonly>
-            <label for="discountRate">
-                Discount Rate
-            </label>
+        <div>
+            <div class="text-center" style="font-size: 0.7em">
+                @DiscountRateString
+            </div>
+            <input type="range" class="form-range" id="discountRateRange" value="@discountRate"
+                   min="0" max="50" step="0.1"
+                   @oninput="ChangeDiscountRate">
         </div>
     </div>
     <div class="col-auto">
