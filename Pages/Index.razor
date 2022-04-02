@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using Unplugged.SecurityAnalysis.Valuation
 
 <PageTitle>Index</PageTitle>
 
@@ -6,4 +7,30 @@
 
 Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+Future cash flow: @futureCashFlow
+<br>
+Periods: @periods
+<br>
+Discount Rate: @discountRate
+<br>
+
+<button class="btn btn-primary" @onclick="GetPresentValue">
+    Calculate Present Value
+</button>
+<br>
+
+Present Value: @presentValue
+
+
+@code
+{
+    private double presentValue;
+    private double futureCashFlow = 10_000;
+    private double periods = 10;
+    private double discountRate = 0.05;
+
+    private void GetPresentValue()
+    {
+        presentValue = SimpleCashFlowDiscounting.PresentValue(futureCashFlow, periods, discountRate);
+    }
+}
