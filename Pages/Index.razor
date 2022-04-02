@@ -20,7 +20,7 @@
     </div>
     <div class="col-auto">
         <div class="form-floating mb-3">
-            <input type="number" step="0.01" class="form-control" id="discountRate" @bind="discountRate">
+            <input type="number" step="0.01" class="form-control" id="discountRate" value="@discountRate" @oninput="ChangeDiscountRate">
             <label for="discountRate">Discount Rate</label>
         </div>
     </div>
@@ -31,7 +31,7 @@
     </div>
     <div class="col-auto">
         <div class="form-floating mb-3">
-            <input class="form-control" id="presentValue" value="@presentValue.ToString("N2")" readonly>
+            <input class="form-control" id="presentValue" value="@PresentValueString" readonly>
             <label for="presentValue">Present Value</label>
         </div>
     </div>
@@ -44,6 +44,14 @@
     private double futureCashFlow = 10_000;
     private double periods = 10;
     private double discountRate = 0.05;
+
+    private string PresentValueString => presentValue.ToString("N2");
+    
+    private void ChangeDiscountRate(ChangeEventArgs e)
+    {
+        discountRate = Convert.ToDouble(e.Value);
+        GetPresentValue();
+    }
 
     private void GetPresentValue()
     {
