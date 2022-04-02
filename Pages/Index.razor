@@ -6,21 +6,21 @@
 </PageTitle>
 
 <form @onsubmit="GetPresentValue" class="row">
-    <div class="col-auto">
+    <div class="col-12 col-md-3">
         <div class="form-floating mb-3">
             <input type="number" class="form-control" id="futureCashFlow" value="@futureCashFlow"
                    @oninput="ChangeFutureCashFlow">
             <label for="futureCashFlow">Future Cash Flow</label>
         </div>
     </div>
-    <div class="col-auto">
+    <div class="col-12 col-md-3">
         <div class="form-floating mb-3">
             <input type="number" class="form-control" id="periods" value="@periods"
                    @oninput="ChangePeriods">
             <label for="periods">Number of Periods</label>
         </div>
     </div>
-    <div class="col-auto">
+    <div class="col-12 col-md-3">
         <label for="discountRateRange" class="text-muted" style="font-size: 0.85em">
             Discount Rate
         </label>
@@ -33,7 +33,7 @@
                    @oninput="ChangeDiscountRate">
         </div>
     </div>
-    <div class="col-auto">
+    <div class="col-12 col-md-3">
         <div class="form-floating mb-3">
             <input class="form-control" id="presentValue" value="@PresentValueString" readonly>
             <label for="presentValue">Present Value</label>
