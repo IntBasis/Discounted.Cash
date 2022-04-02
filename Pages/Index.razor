@@ -5,19 +5,37 @@
     Discounted.Cash
 </PageTitle>
 
-Future cash flow: <input type="number" @bind="futureCashFlow">
-<br>
-Periods: <input type="number" @bind="periods">
-<br>
-Discount Rate: <input type="number" step="0.01" @bind="discountRate">
-<br>
-
-<button class="btn btn-primary" @onclick="GetPresentValue">
-    Calculate Present Value
-</button>
-<br>
-
-Present Value: @presentValue.ToString("N2")
+<form @onsubmit="GetPresentValue" class="row">
+    <div class="col-auto">
+        <div class="form-floating mb-3">
+            <input type="number" class="form-control" id="futureCashFlow" @bind="futureCashFlow">
+            <label for="futureCashFlow">Future Cash Flow</label>
+        </div>
+    </div>
+    <div class="col-auto">
+        <div class="form-floating mb-3">
+            <input type="number" class="form-control" id="periods" @bind="periods">
+            <label for="periods">Number of Periods</label>
+        </div>
+    </div>
+    <div class="col-auto">
+        <div class="form-floating mb-3">
+            <input type="number" step="0.01" class="form-control" id="discountRate" @bind="discountRate">
+            <label for="discountRate">Discount Rate</label>
+        </div>
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-primary btn-lg mb-3" @onclick="GetPresentValue">
+            Calculate Present Value
+        </button>
+    </div>
+    <div class="col-auto">
+        <div class="form-floating mb-3">
+            <input class="form-control" id="presentValue" value="@presentValue.ToString("N2")" readonly>
+            <label for="presentValue">Present Value</label>
+        </div>
+    </div>
+</form>
 
 
 @code
