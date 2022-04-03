@@ -12,7 +12,63 @@
 </head>
 
 <body>
-    <div id="app">Loading...</div>
+    <div id="app">
+        <!--Manual Pre-Render-->
+        <div class="container mt-3">
+            <div class="spinner-border float-end" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="lead">
+                <em>A bird in the hand is worth two in the bush.</em>
+            </p>
+
+            <p class="small">
+                Learn more about the
+                <a href="https://en.wikipedia.org/wiki/Time_value_of_money">
+                    Time Value of Money
+                </a>
+            </p>
+
+            <form @onsubmit="GetPresentValue" class="row">
+                <div class="col-12 col-md-3">
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" id="futureCashFlow" readonly>
+                        <label for="futureCashFlow">Future Cash Flow</label>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" id="periods" readonly>
+                        <label for="periods">Number of Periods</label>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <label for="discountRateRange" class="text-muted" style="font-size: 0.85em">
+                        Discount Rate
+                    </label>
+                    <div>
+                        <div class="text-center" style="font-size: 0.7em">
+                            5.0%
+                        </div>
+                        <input type="range" class="form-range" id="discountRateRange" value="5"
+                               min="0" max="50" step="0.1"
+                               readonly>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="presentValue" readonly>
+                        <label for="presentValue">Present Value</label>
+                    </div>
+                </div>
+            </form>
+
+            <div class="alert alert-primary" role="alert">
+                Send me feedback
+                <a href="https://twitter.com/JacobInvesting">@JacobInvesting</a>
+            </div>
+        </div>
+    </div>
 
     <div id="blazor-error-ui">
         An unhandled error has occurred.
