@@ -3,11 +3,11 @@
 
 <h3>Decade</h3>
 
-<form @onsubmit="GetPresentValue" class="row">
+<form @onsubmit="() => {}" class="row">
     <div class="col-12 col-md-3">
         <div class="form-floating mb-3">
             <input type="number" class="form-control" id="initialEarnings" value="@initialEarnings"
-                   @oninput="ChangeFutureCashFlow">
+                   @oninput="ChangeInitialEarnings">
             <label for="initialEarnings">First Year Earnings</label>
         </div>
     </div>
@@ -24,7 +24,7 @@
                    @oninput="ChangeGrowthRate">
         </div>
     </div>
-@*    <div class="col-12 col-md-3">
+    <div class="col-12 col-md-3">
         <label for="discountRateRange" class="text-muted" style="font-size: 0.85em">
             Discount Rate
         </label>
@@ -36,7 +36,7 @@
                    min="0" max="50" step="0.1"
                    @oninput="ChangeDiscountRate">
         </div>
-    </div>*@
+    </div>
 </form>
 
 <table class="table table-hover">
@@ -63,6 +63,17 @@
                 </td>
             }
         </tr>
+        <tr>
+            <th>
+                Present Value of Earnings
+            </th>
+            @for (int i = 0; i < years; i++)
+            {
+                <td>
+                    @EarningsPresentValue(i)
+                </td>
+            }
+        </tr>
     </tbody>
 </table>
 
@@ -71,7 +82,6 @@
 Output:
 
 - Table
-    - present value
     - present value as a percentage of earnings
 - sum total of all present values
 - earnings multiple
@@ -82,17 +92,12 @@ Output:
     private double initialEarnings = 1_000;
     private double growthRate = 20;
     private double discountRate = 10;
-    private double presentValue;
-    private double futureCashFlow = 10_000;
-    private double periods = 10;
 
     private string GrowthRateString => (growthRate / 100.0).ToString("P1");
     private string DiscountRateString => (discountRate / 100.0).ToString("P1");
-    private string PresentValueString => presentValue.ToString("N2");
 
     protected override void OnParametersSet()
     {
-        GetPresentValue();
     }
 
     private string EarningsForYear(int yearIndex)
@@ -101,33 +106,27 @@ Output:
         return earnings.ToString("C0");
     }
 
-    private void ChangeFutureCashFlow(ChangeEventArgs e)
+    private string EarningsPresentValue(int yearIndex)
     {
-        futureCashFlow = ToDouble(e.Value);
-        GetPresentValue();
+        var earnings = initialEarnings * Math.Pow(1 + growthRate / 100.0, yearIndex);
+        var presentValue = earnings * Math.Pow(1 + discountRate / 100.0, -(yearIndex + 1));
+        return presentValue.ToString("C0");
     }
 
-    private void ChangePeriods(ChangeEventArgs e)
+    private void ChangeInitialEarnings(ChangeEventArgs e)
     {
-        periods = ToDouble(e.Value);
-        GetPresentValue();
+        initialEarnings = ToDouble(e.Value);
     }
+
 
     private void ChangeGrowthRate(ChangeEventArgs e)
     {
         growthRate = ToDouble(e.Value);
-        GetPresentValue();
     }
 
     private void ChangeDiscountRate(ChangeEventArgs e)
     {
         discountRate = ToDouble(e.Value);
-        GetPresentValue();
-    }
-
-    private void GetPresentValue()
-    {
-        presentValue = SimpleCashFlowDiscounting.PresentValue(futureCashFlow, periods, discountRate / 100.0);
     }
 
     private static double ToDouble(object? value)
