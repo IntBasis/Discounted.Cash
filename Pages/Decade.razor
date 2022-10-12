@@ -1,7 +1,139 @@
 ﻿@page "/decade"
+@using Unplugged.SecurityAnalysis.Valuation
 
 <h3>Decade</h3>
 
-@code {
+<form @onsubmit="GetPresentValue" class="row">
+    <div class="col-12 col-md-3">
+        <div class="form-floating mb-3">
+            <input type="number" class="form-control" id="initialEarnings" value="@initialEarnings"
+                   @oninput="ChangeFutureCashFlow">
+            <label for="initialEarnings">First Year Earnings</label>
+        </div>
+    </div>
+    <div class="col-12 col-md-3">
+        <label for="growthRateRange" class="text-muted" style="font-size: 0.85em">
+            Growth Rate
+        </label>
+        <div>
+            <div class="text-center" style="font-size: 0.7em">
+                @GrowthRateString
+            </div>
+            <input type="range" class="form-range" id="growthRateRange" value="@growthRate"
+                   min="0" max="50" step="0.1"
+                   @oninput="ChangeGrowthRate">
+        </div>
+    </div>
+@*    <div class="col-12 col-md-3">
+        <label for="discountRateRange" class="text-muted" style="font-size: 0.85em">
+            Discount Rate
+        </label>
+        <div>
+            <div class="text-center" style="font-size: 0.7em">
+                @DiscountRateString
+            </div>
+            <input type="range" class="form-range" id="discountRateRange" value="@discountRate"
+                   min="0" max="50" step="0.1"
+                   @oninput="ChangeDiscountRate">
+        </div>
+    </div>*@
+</form>
 
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th></th>
+            @for (int i = 0; i < years; i++)
+            {
+                <th>
+                    Year @(i + 1)
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>
+                Earnings
+            </th>
+            @for (int i = 0; i < years; i++)
+            {
+                <td>
+                    @EarningsForYear(i)
+                </td>
+            }
+        </tr>
+    </tbody>
+</table>
+
+@*
+
+Output:
+
+- Table
+    - present value
+    - present value as a percentage of earnings
+- sum total of all present values
+- earnings multiple
+*@
+
+@code {
+    const int years = 10;
+    private double initialEarnings = 1_000;
+    private double growthRate = 20;
+    private double discountRate = 10;
+    private double presentValue;
+    private double futureCashFlow = 10_000;
+    private double periods = 10;
+
+    private string GrowthRateString => (growthRate / 100.0).ToString("P1");
+    private string DiscountRateString => (discountRate / 100.0).ToString("P1");
+    private string PresentValueString => presentValue.ToString("N2");
+
+    protected override void OnParametersSet()
+    {
+        GetPresentValue();
+    }
+
+    private string EarningsForYear(int yearIndex)
+    {
+        var earnings = initialEarnings * Math.Pow(1 + growthRate / 100.0, yearIndex);
+        return earnings.ToString("C0");
+    }
+
+    private void ChangeFutureCashFlow(ChangeEventArgs e)
+    {
+        futureCashFlow = ToDouble(e.Value);
+        GetPresentValue();
+    }
+
+    private void ChangePeriods(ChangeEventArgs e)
+    {
+        periods = ToDouble(e.Value);
+        GetPresentValue();
+    }
+
+    private void ChangeGrowthRate(ChangeEventArgs e)
+    {
+        growthRate = ToDouble(e.Value);
+        GetPresentValue();
+    }
+
+    private void ChangeDiscountRate(ChangeEventArgs e)
+    {
+        discountRate = ToDouble(e.Value);
+        GetPresentValue();
+    }
+
+    private void GetPresentValue()
+    {
+        presentValue = SimpleCashFlowDiscounting.PresentValue(futureCashFlow, periods, discountRate / 100.0);
+    }
+
+    private static double ToDouble(object? value)
+    {
+        if (string.IsNullOrWhiteSpace(value as string))
+            return 0;
+        return Convert.ToDouble(value);
+    }
 }
