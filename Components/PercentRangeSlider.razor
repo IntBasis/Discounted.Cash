@@ -6,7 +6,7 @@
         @ValueString
     </div>
     <input type="range" class="form-range" id="rangeSlider" value="@Value"
-           min="0" max="0.50" step="0.001"
+           min="@Min" max="@Max" step="@Step"
            @oninput="HandleValueChange">
 </div>
 
@@ -16,6 +16,15 @@
 
     [Parameter]
     public double Value { get; set; }
+
+    [Parameter]
+    public double Min { get; set; } = 0;
+
+    [Parameter]
+    public double Max { get; set; } = 0.50;
+
+    [Parameter]
+    public double Step { get; set; } = 0.001;
 
     [Parameter]
     public EventCallback<double> ValueChanged { get; set; }
