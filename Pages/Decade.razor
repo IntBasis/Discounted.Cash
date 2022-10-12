@@ -39,7 +39,7 @@
             @for (int i = 0; i < years; i++)
             {
                 <td>
-                    @EarningsForYear(i)
+                    @Currency(EarningsForYear(i))
                 </td>
             }
         </tr>
@@ -50,7 +50,16 @@
             @for (int i = 0; i < years; i++)
             {
                 <td>
-                    @EarningsPresentValue(i)
+                    @Currency(EarningsPresentValue(i))
+                </td>
+            }
+        </tr>
+        <tr>
+            <th>PV as Percent of Future Value</th>
+            @for (int i = 0; i < years; i++)
+            {
+                <td>
+                    @Percent(EarningsPresentValue(i) / EarningsForYear(i))
                 </td>
             }
         </tr>
@@ -58,11 +67,7 @@
 </table>
 
 @*
-
 Output:
-
-- Table
-    - present value as a percentage of earnings
 - sum total of all present values
 - earnings multiple
 *@
@@ -73,23 +78,21 @@ Output:
     private double growthRate = 0.20;
     private double discountRate = 0.10;
 
-    private double GetEarnings(int yearIndex) => Compound(initialEarnings, periods: yearIndex, growthRate);
-
-    private string EarningsForYear(int yearIndex)
-    {
-        var earnings = GetEarnings(yearIndex);
-        return earnings.ToString("C0");
-    }
-
-    private string EarningsPresentValue(int yearIndex)
-    {
-        var earnings = GetEarnings(yearIndex);
-        var presentValue = Discount(earnings, periods: yearIndex + 1, discountRate);
-        return presentValue.ToString("C0");
-    }
-
     private void ChangeInitialEarnings(ChangeEventArgs e)
     {
         initialEarnings = Parsing.ToDouble(e.Value);
     }
+
+    private double EarningsForYear(int yearIndex) => Compound(initialEarnings, periods: yearIndex, growthRate);
+
+    private double EarningsPresentValue(int yearIndex)
+    {
+        var earnings = EarningsForYear(yearIndex);
+        var presentValue = Discount(earnings, periods: yearIndex + 1, discountRate);
+        return presentValue;
+    }
+
+    private static string Currency(double value) => value.ToString("C0");
+
+    private static string Percent(double value) => value.ToString("P0");
 }
