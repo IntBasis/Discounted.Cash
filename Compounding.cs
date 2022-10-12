@@ -23,6 +23,8 @@ public static class Compounding
     /// </summary>
     public static double Annuity(double lastCashFlow, double periods, double growthRate, double discountRate)
     {
+        if (growthRate == discountRate)
+            return periods * lastCashFlow;
         // Damodaran Little Book of Valuation p. 17
         var g = Math.Pow(1 + growthRate, periods);
         var d = Math.Pow(1 + discountRate, -periods);
