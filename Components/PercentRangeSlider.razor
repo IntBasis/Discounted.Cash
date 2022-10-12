@@ -24,14 +24,7 @@
 
     private async Task HandleValueChange(ChangeEventArgs e)
     {
-        Value = ToDouble(e.Value);
+        Value = Parsing.ToDouble(e.Value);
         await ValueChanged.InvokeAsync(Value);
-    }
-
-    private static double ToDouble(object? value)
-    {
-        if (string.IsNullOrWhiteSpace(value as string))
-            return 0;
-        return Convert.ToDouble(value);
     }
 }

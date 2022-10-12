@@ -92,13 +92,6 @@ Output:
 
     private void ChangeInitialEarnings(ChangeEventArgs e)
     {
-        initialEarnings = ToDouble(e.Value);
-    }
-
-    private static double ToDouble(object? value)
-    {
-        if (string.IsNullOrWhiteSpace(value as string))
-            return 0;
-        return Convert.ToDouble(value);
+        initialEarnings = Parsing.ToDouble(e.Value);
     }
 }

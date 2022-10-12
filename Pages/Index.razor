@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using Unplugged.SecurityAnalysis.Valuation
+@using static IntBasis.Apps.DiscountedCash.Parsing;
 
 <PageTitle>
     Discounted.Cash
@@ -64,12 +65,5 @@
     private void ChangePeriods(ChangeEventArgs e)
     {
         periods = ToDouble(e.Value);
-    }
-
-    private static double ToDouble(object? value)
-    {
-        if (string.IsNullOrWhiteSpace(value as string))
-            return 0;
-        return Convert.ToDouble(value);
     }
 }
