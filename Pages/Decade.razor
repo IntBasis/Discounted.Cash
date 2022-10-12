@@ -66,9 +66,17 @@
     </tbody>
 </table>
 
+<div class="row">
+    <div class="col-12 col-md-3">
+        <div class="form-floating mb-3">
+            <input class="form-control form-control-lg" id="presentValue" value="@Currency(TotalPresentValue)" readonly>
+            <label for="presentValue">Total Present Value</label>
+        </div>
+    </div>
+</div>
+
 @*
 Output:
-- sum total of all present values
 - earnings multiple
 *@
 
@@ -77,6 +85,16 @@ Output:
     private double initialEarnings = 1_000;
     private double growthRate = 0.20;
     private double discountRate = 0.10;
+
+    private double TotalPresentValue
+    {
+        get
+        {
+            // HACK: The annuity formula takes last year's cash flow, so we infer that from the growth rate
+            var lastCashFlow = Compound(initialEarnings, -1, growthRate);
+            return Annuity(lastCashFlow, years, growthRate, discountRate);
+        }
+    }
 
     private void ChangeInitialEarnings(ChangeEventArgs e)
     {

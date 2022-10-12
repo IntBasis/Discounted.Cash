@@ -17,4 +17,15 @@ public static class Compounding
         // pv = futureCashflow / (1 + growthRate)^n
         return Compound(futureCashFlow, -periods, discountRate);
     }
+
+    /// <summary>
+    /// Equivalent to summing all future cash flows discounted to present day
+    /// </summary>
+    public static double Annuity(double lastCashFlow, double periods, double growthRate, double discountRate)
+    {
+        // Damodaran Little Book of Valuation p. 17
+        var g = Math.Pow(1 + growthRate, periods);
+        var d = Math.Pow(1 + discountRate, -periods);
+        return lastCashFlow * (1 + growthRate) * (1 - g * d) / (discountRate - growthRate);
+    }
 }
