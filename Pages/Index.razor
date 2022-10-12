@@ -16,7 +16,7 @@
     </a>
 </p>
 
-<form @onsubmit="GetPresentValue" class="row">
+<form @onsubmit="_ => {}" class="row">
     <div class="col-12 col-md-3">
         <div class="form-floating mb-3">
             <input type="number" class="form-control" id="futureCashFlow" value="@futureCashFlow"
@@ -49,38 +49,21 @@
 
 @code
 {
-    private double presentValue;
     private double futureCashFlow = 10_000;
     private double periods = 10;
-    private double _discountRate = 5;
-    private double discountRate
-    {
-        get => _discountRate;
-        set { _discountRate = value; GetPresentValue(); }
-    }
+    private double discountRate = 5;
 
-    private string PresentValueString => presentValue.ToString("N2");
-
-    protected override void OnParametersSet()
-    {
-        GetPresentValue();
-    }
+    private double PresentValue => SimpleCashFlowDiscounting.PresentValue(futureCashFlow, periods, discountRate / 100.0);
+    private string PresentValueString => PresentValue.ToString("N2");
 
     private void ChangeFutureCashFlow(ChangeEventArgs e)
     {
         futureCashFlow = ToDouble(e.Value);
-        GetPresentValue();
     }
 
     private void ChangePeriods(ChangeEventArgs e)
     {
         periods = ToDouble(e.Value);
-        GetPresentValue();
-    }
-
-    private void GetPresentValue()
-    {
-        presentValue = SimpleCashFlowDiscounting.PresentValue(futureCashFlow, periods, discountRate / 100.0);
     }
 
     private static double ToDouble(object? value)
