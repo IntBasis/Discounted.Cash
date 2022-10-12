@@ -73,6 +73,12 @@
             <label for="presentValue">Total Present Value</label>
         </div>
     </div>
+    <div class="col-12 col-md-3">
+        <div class="form-floating mb-3">
+            <input class="form-control form-control-lg" id="earningsMultiple" value="@X(ForwardEarningsMultiple)" readonly>
+            <label for="earningsMultiple">Forward Earnings Multiple</label>
+        </div>
+    </div>
 </div>
 
 @*
@@ -96,6 +102,8 @@ Output:
         }
     }
 
+    private double ForwardEarningsMultiple => TotalPresentValue / initialEarnings;
+
     private void ChangeInitialEarnings(ChangeEventArgs e)
     {
         initialEarnings = Parsing.ToDouble(e.Value);
@@ -113,4 +121,6 @@ Output:
     private static string Currency(double value) => value.ToString("C0");
 
     private static string Percent(double value) => value.ToString("P0");
+
+    private static string X(double value) => Math.Round(value).ToString("N0") + "x";
 }
