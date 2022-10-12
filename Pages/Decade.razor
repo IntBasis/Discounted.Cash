@@ -75,8 +75,14 @@
     </div>
     <div class="col-12 col-md-3">
         <div class="form-floating mb-3">
-            <input class="form-control form-control-lg" id="earningsMultiple" value="@X(ForwardEarningsMultiple)" readonly>
-            <label for="earningsMultiple">Forward Earnings Multiple</label>
+            <input class="form-control form-control-lg" id="fwdEarningsMultiple" value="@X(ForwardEarningsMultiple)" readonly>
+            <label for="fwdEarningsMultiple">Forward Earnings Multiple</label>
+        </div>
+    </div>
+    <div class="col-12 col-md-3">
+        <div class="form-floating mb-3">
+            <input class="form-control form-control-lg" id="trailEarningsMultiple" value="@X(TrailingEarningsMultiple)" readonly>
+            <label for="trailEarningsMultiple">Trailing Earnings Multiple</label>
         </div>
     </div>
 </div>
@@ -92,17 +98,20 @@ Output:
     private double growthRate = 0.20;
     private double discountRate = 0.10;
 
+    private double lastYearEarnings => Compound(initialEarnings, -1, growthRate);
+
     private double TotalPresentValue
     {
         get
         {
             // HACK: The annuity formula takes last year's cash flow, so we infer that from the growth rate
-            var lastCashFlow = Compound(initialEarnings, -1, growthRate);
-            return Annuity(lastCashFlow, years, growthRate, discountRate);
+            return Annuity(lastYearEarnings, years, growthRate, discountRate);
         }
     }
 
     private double ForwardEarningsMultiple => TotalPresentValue / initialEarnings;
+
+    private double TrailingEarningsMultiple => TotalPresentValue / lastYearEarnings;
 
     private void ChangeInitialEarnings(ChangeEventArgs e)
     {
