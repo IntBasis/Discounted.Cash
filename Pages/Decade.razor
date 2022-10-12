@@ -1,5 +1,5 @@
 ﻿@page "/decade"
-@using Unplugged.SecurityAnalysis.Valuation
+@using static Compounding;
 
 <h3>Decade</h3>
 
@@ -77,16 +77,18 @@ Output:
     {
     }
 
+    private double GetEarnings(int yearIndex) => Compound(initialEarnings, periods: yearIndex, growthRate / 100);
+
     private string EarningsForYear(int yearIndex)
     {
-        var earnings = initialEarnings * Math.Pow(1 + growthRate / 100.0, yearIndex);
+        var earnings = GetEarnings(yearIndex);
         return earnings.ToString("C0");
     }
 
     private string EarningsPresentValue(int yearIndex)
     {
-        var earnings = initialEarnings * Math.Pow(1 + growthRate / 100.0, yearIndex);
-        var presentValue = earnings * Math.Pow(1 + discountRate / 100.0, -(yearIndex + 1));
+        var earnings = GetEarnings(yearIndex);
+        var presentValue = Discount(earnings, periods: yearIndex + 1, discountRate / 100);
         return presentValue.ToString("C0");
     }
 

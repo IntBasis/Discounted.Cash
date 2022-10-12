@@ -1,6 +1,6 @@
 ﻿@page "/"
-@using Unplugged.SecurityAnalysis.Valuation
-@using static IntBasis.Apps.DiscountedCash.Parsing;
+@using static Parsing;
+@using static Compounding;
 
 <PageTitle>
     Discounted.Cash
@@ -54,7 +54,7 @@
     private double periods = 10;
     private double discountRate = 5;
 
-    private double PresentValue => SimpleCashFlowDiscounting.PresentValue(futureCashFlow, periods, discountRate / 100.0);
+    private double PresentValue => Discount(futureCashFlow, periods, discountRate / 100.0);
     private string PresentValueString => PresentValue.ToString("N2");
 
     private void ChangeFutureCashFlow(ChangeEventArgs e)
