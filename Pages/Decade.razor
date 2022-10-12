@@ -3,7 +3,7 @@
 
 <h3>Decade</h3>
 
-<form @onsubmit="() => {}" class="row">
+<div class="row">
     <div class="col-12 col-md-3">
         <div class="form-floating mb-3">
             <input type="number" class="form-control" id="initialEarnings" value="@initialEarnings"
@@ -17,7 +17,7 @@
     <div class="col-12 col-md-3">
         <PercentRangeSlider Label="Discount Rate" @bind-Value="@discountRate" />
     </div>
-</form>
+</div>
 
 <table class="table table-hover">
     <thead>
