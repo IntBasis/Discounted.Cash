@@ -32,17 +32,7 @@
         </div>
     </div>
     <div class="col-12 col-md-3">
-        <label for="discountRateRange" class="text-muted" style="font-size: 0.85em">
-            Discount Rate
-        </label>
-        <div>
-            <div class="text-center" style="font-size: 0.7em">
-                @DiscountRateString
-            </div>
-            <input type="range" class="form-range" id="discountRateRange" value="@discountRate"
-                   min="0" max="50" step="0.1"
-                   @oninput="ChangeDiscountRate">
-        </div>
+        <PercentRangeSlider Label="Discount Rate" @bind-Value="@discountRate" />
     </div>
     <div class="col-12 col-md-3">
         <div class="form-floating mb-3">
@@ -62,9 +52,13 @@
     private double presentValue;
     private double futureCashFlow = 10_000;
     private double periods = 10;
-    private double discountRate = 5;
+    private double _discountRate = 5;
+    private double discountRate
+    {
+        get => _discountRate;
+        set { _discountRate = value; GetPresentValue(); }
+    }
 
-    private string DiscountRateString => (discountRate / 100.0).ToString("P1");
     private string PresentValueString => presentValue.ToString("N2");
 
     protected override void OnParametersSet()
@@ -81,12 +75,6 @@
     private void ChangePeriods(ChangeEventArgs e)
     {
         periods = ToDouble(e.Value);
-        GetPresentValue();
-    }
-
-    private void ChangeDiscountRate(ChangeEventArgs e)
-    {
-        discountRate = ToDouble(e.Value);
         GetPresentValue();
     }
 
