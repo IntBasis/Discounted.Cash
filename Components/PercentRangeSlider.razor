@@ -6,7 +6,7 @@
         @ValueString
     </div>
     <input type="range" class="form-range" id="rangeSlider" value="@Value"
-           min="0" max="50" step="0.1"
+           min="0" max="0.50" step="0.001"
            @oninput="HandleValueChange">
 </div>
 
@@ -20,7 +20,7 @@
     [Parameter]
     public EventCallback<double> ValueChanged { get; set; }
 
-    private string ValueString => (Value / 100.0).ToString("P1");
+    private string ValueString => Value.ToString("P1");
 
     private async Task HandleValueChange(ChangeEventArgs e)
     {

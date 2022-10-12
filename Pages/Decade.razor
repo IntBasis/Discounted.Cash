@@ -70,14 +70,10 @@ Output:
 @code {
     const int years = 10;
     private double initialEarnings = 1_000;
-    private double growthRate = 20;
-    private double discountRate = 10;
+    private double growthRate = 0.20;
+    private double discountRate = 0.10;
 
-    protected override void OnParametersSet()
-    {
-    }
-
-    private double GetEarnings(int yearIndex) => Compound(initialEarnings, periods: yearIndex, growthRate / 100);
+    private double GetEarnings(int yearIndex) => Compound(initialEarnings, periods: yearIndex, growthRate);
 
     private string EarningsForYear(int yearIndex)
     {
@@ -88,7 +84,7 @@ Output:
     private string EarningsPresentValue(int yearIndex)
     {
         var earnings = GetEarnings(yearIndex);
-        var presentValue = Discount(earnings, periods: yearIndex + 1, discountRate / 100);
+        var presentValue = Discount(earnings, periods: yearIndex + 1, discountRate);
         return presentValue.ToString("C0");
     }
 
