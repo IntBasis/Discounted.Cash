@@ -39,7 +39,7 @@
     private double discountRate = 0.05;
 
     private double PresentValue => Discount(futureCashFlow, periods, discountRate);
-    private string PresentValueString => PresentValue.ToString("N2");
+    private string PresentValueString => PresentValue.ToString("C2");
 
     private void ChangeFutureCashFlow(ChangeEventArgs e)
     {
