@@ -3,8 +3,11 @@
         <a class="navbar-brand" href="/">
             <img src="/logo.png" alt="intBASIS" width="24" height="24">
         </a>
-        <div class="x-collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                         Introduction
@@ -21,6 +24,9 @@
                     </NavLink>
                 </li>
             </ul>
+            <span class="navbar-text d-none d-lg-block">
+                <em>A bird in the hand is worth two in the bush.</em>
+            </span>
         </div>
     </div>
 </nav>
