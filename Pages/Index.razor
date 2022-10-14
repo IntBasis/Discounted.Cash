@@ -3,8 +3,9 @@
 @using static Compounding;
 
 <PageTitle>
-    Discounted.Cash
+    Discounted.Cash: Introduction
 </PageTitle>
+
 
 <p class="lead">
     <em>A bird in the hand is worth two in the bush.</em>
@@ -17,53 +18,10 @@
     </a>
 </p>
 
-<div class="row">
-    <div class="col-12 col-md-3">
-        <div class="form-floating mb-3">
-            <input type="number" class="form-control" id="futureCashFlow" value="@futureCashFlow"
-                   @oninput="ChangeFutureCashFlow">
-            <label for="futureCashFlow">Future Cash Flow</label>
-        </div>
-    </div>
-    <div class="col-12 col-md-3">
-        <div class="form-floating mb-3">
-            <input type="number" class="form-control" id="periods" value="@periods"
-                   @oninput="ChangePeriods">
-            <label for="periods">Number of Periods</label>
-        </div>
-    </div>
-    <div class="col-12 col-md-3">
-        <PercentRangeSlider Label="Discount Rate" @bind-Value="@discountRate" />
-    </div>
-    <div class="col-12 col-md-3">
-        <div class="form-floating mb-3">
-            <input class="form-control" id="presentValue" value="@PresentValueString" readonly>
-            <label for="presentValue">Present Value</label>
-        </div>
-    </div>
-</div>
+What is investing?
 
-<div class="alert alert-primary" role="alert">
-    Send me feedback
-    <a href="https://twitter.com/JacobInvesting">@@JacobInvesting</a>
-</div>
 
-@code
-{
-    private double futureCashFlow = 10_000;
-    private double periods = 10;
-    private double discountRate = 0.05;
+How much?
 
-    private double PresentValue => Discount(futureCashFlow, periods, discountRate);
-    private string PresentValueString => PresentValue.ToString("N2");
 
-    private void ChangeFutureCashFlow(ChangeEventArgs e)
-    {
-        futureCashFlow = ToDouble(e.Value);
-    }
-
-    private void ChangePeriods(ChangeEventArgs e)
-    {
-        periods = ToDouble(e.Value);
-    }
-}
+Which investment?
