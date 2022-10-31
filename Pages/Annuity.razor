@@ -1,4 +1,4 @@
-﻿@page "/decade"
+﻿@page "/annuity"
 @using static Compounding;
 
 <PageTitle>
@@ -7,7 +7,7 @@
 
 
 <div class="alert alert-secondary me-5">
-    How much should I pay for 10 years of growing cash flows?
+    How much should I pay for @Years years of growing cash flows?
 </div>
 <div class="alert alert-primary ms-5">
     <span class="fw-bold">
@@ -40,7 +40,7 @@
     <thead>
         <tr>
             <th></th>
-            @for (int i = 0; i < years; i++)
+            @for (int i = 0; i < Years; i++)
             {
                 <th>
                     Year @(i + 1)
@@ -53,7 +53,7 @@
             <th>
                 Earnings
             </th>
-            @for (int i = 0; i < years; i++)
+            @for (int i = 0; i < Years; i++)
             {
                 <td>
                     @Currency(EarningsForYear(i))
@@ -64,7 +64,7 @@
             <th>
                 Present Value of Earnings
             </th>
-            @for (int i = 0; i < years; i++)
+            @for (int i = 0; i < Years; i++)
             {
                 <td>
                     @Currency(EarningsPresentValue(i))
@@ -73,7 +73,7 @@
         </tr>
         <tr>
             <th>PV as Percent of Future Value</th>
-            @for (int i = 0; i < years; i++)
+            @for (int i = 0; i < Years; i++)
             {
                 <td>
                     @Percent(EarningsPresentValue(i) / EarningsForYear(i))
@@ -104,13 +104,11 @@
     </div>
 </div>
 
-@*
-Output:
-- earnings multiple
-*@
-
 @code {
-    const int years = 10;
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int Years { get; set; } = 10;
+
     private double initialEarnings = 1_000;
     private double growthRate = 0.20;
     private double discountRate = 0.10;
@@ -122,13 +120,19 @@ Output:
         get
         {
             // HACK: The annuity formula takes last year's cash flow, so we infer that from the growth rate
-            return Annuity(lastYearEarnings, years, growthRate, discountRate);
+            return Annuity(lastYearEarnings, Years, growthRate, discountRate);
         }
     }
 
     private double ForwardEarningsMultiple => TotalPresentValue / initialEarnings;
 
     private double TrailingEarningsMultiple => TotalPresentValue / lastYearEarnings;
+
+    protected override void OnParametersSet()
+    {
+        if (Years <= 0)
+            Years = 10;
+    }
 
     private void ChangeInitialEarnings(ChangeEventArgs e)
     {
