@@ -7,10 +7,11 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/IntBasis.Apps.DiscountedCash.csproj",
+                "${workspaceFolder}/IntBasis.Apps.DiscountedCash.sln",
                 "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
+            "isBuildCommand": true,
             "problemMatcher": "$msCompile"
         },
         {
@@ -19,9 +20,9 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/IntBasis.Apps.DiscountedCash.csproj",
+                "${workspaceFolder}/IntBasis.Apps.DiscountedCash.sln",
                 "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
             "problemMatcher": "$msCompile"
         },
@@ -33,7 +34,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/IntBasis.Apps.DiscountedCash.csproj"
+                "${workspaceFolder}/IntBasis.Apps.DiscountedCash.sln"
             ],
             "problemMatcher": "$msCompile"
         }
