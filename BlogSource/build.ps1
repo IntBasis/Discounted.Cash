@@ -10,5 +10,5 @@ Get-ChildItem -Filter *.md | ForEach-Object {
         $quietArg = "--quiet"
     }
 
-    pandoc $_.Name -o $outputFile --template=$templatePath $quietArg
+    pandoc $_.Name -o $outputFile --template=$templatePath --lua-filter=./bootstrap_filter.lua $quietArg
 }
