@@ -37,6 +37,38 @@
                 "${workspaceFolder}/IntBasis.Apps.DiscountedCash.sln"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Build Blog",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/BlogSource/build.ps1"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/BlogSource"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Watch Blog",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "watch.ps1"
+            ],
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}/BlogSource"
+            }
         }
     ]
 }
