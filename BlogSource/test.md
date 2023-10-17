@@ -1,5 +1,5 @@
 ---
-title: "Discounted.Cash Blog Test Page"
+title: "Test Page"
 ---
 
 # Test Page
